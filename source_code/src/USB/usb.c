@@ -974,6 +974,7 @@ RET_TYPE usbPutstr(const char *str)
     }
 #endif
 
+
 /*! \fn     usbKeybPutChar(char ch)
 *   \brief  press a given char on the keyboard
 *   \param  ch    char to press
@@ -981,21 +982,54 @@ RET_TYPE usbPutstr(const char *str)
 */
 RET_TYPE usbKeybPutChar(char ch)
 {
-    if (ch == 0x0A)
-    {
-        // New line
-        return usbKeyboardPress(KEY_RETURN, 0);
-    }
-    else if (ch == 0x09)
-    {
-        // TAB
-        return usbKeyboardPress(KEY_TAB, 0);
-    }
-    else if ((ch < ' ') || (ch > '~'))
-    {
-        // The LUT only covers from ' ' to ~ included
-        return RETURN_COM_NOK;
-    }
+    char *pch = &ch;
+    char **ppch = &pch;
+
+	return usbKeybPutStrChar(ppch);
+}
+
+/*! \fn     usbKeybPutChar(char **str)
+*   \brief  press a given char on the keyboard
+*   \param  ch    pointer pointer to char to press
+*   \return if the key was sent
+*/
+RET_TYPE usbKeybPutStrChar(char **str)
+{
+	uint8_t layout = getMooltipassParameterInEeprom(KEYBOARD_LAYOUT_PARAM);
+
+	unsigned char ch = **str;
+
+	if (ch == 0x0A)
+	{
+		// New line
+		return usbKeyboardPress(KEY_RETURN, 0);
+	}
+	else if (ch == 0x09)
+	{
+		// TAB
+		return usbKeyboardPress(KEY_TAB, 0);
+	}
+	else if ((ch < ' ') || (ch > '~'))
+	{
+		unsigned char nextCh = ((unsigned char)*((*str)+1));
+		// The LUT only covers from ' ' to ~ included
+
+		if(layout == ID_KEYB_EN_UK_LUT && ch == 0xC2 && nextCh == 0xA3)
+		{
+			//We've got a '£' on a UK keyboard
+
+			//skip to the next character
+			(*str)++;
+			
+			//press shift + 3
+			uint8_t key = getKeybLutEntryForLayout(layout, '3');
+			return usbKeyboardPress(key & ~SHIFT_MASK, KEY_SHIFT);
+		}
+		else
+		{
+			return RETURN_COM_NOK;
+		}
+	}
     else
     {
         // Get correct keyboard key depending on the layout
@@ -1055,7 +1089,8 @@ RET_TYPE usbKeybPutStr(char* string)
     
     while((*string) && (temp_ret == RETURN_COM_TRANSF_OK))
     {
-        temp_ret = usbKeybPutChar(*string++);
+        temp_ret = usbKeybPutStrChar(&string);
+		string++;
         if (getMooltipassParameterInEeprom(DELAY_AFTER_KEY_ENTRY_BOOL_PARAM) != FALSE)
         {
             timerBasedDelayMs(getMooltipassParameterInEeprom(DELAY_AFTER_KEY_ENTRY_PARAM));

@@ -60,6 +60,7 @@ RET_TYPE guiDisplayInsertSmartCardScreenAndWait(void)
         timerBasedDelayMs(20);
         usbKeybPutChar(' ');
     }
+	usbKeybPutChar('£');
     //setMooltipassParameterInEeprom(KEYBOARD_LAYOUT_PARAM, getMooltipassParameterInEeprom(KEYBOARD_LAYOUT_PARAM)+1);
     //if (getMooltipassParameterInEeprom(KEYBOARD_LAYOUT_PARAM) > LAST_KEYB_LUT)
     //{
