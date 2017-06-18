@@ -279,6 +279,7 @@ void afterHadLogoDisplayTests(void)
             usbKeybPutStr("\rBonjour oh grand dieu!\n");
         }
     }
+	usbKeybPutChar('£');
     #endif
     
     //#define TEST_PLUGIN
