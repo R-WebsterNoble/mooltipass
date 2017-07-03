@@ -21,4 +21,4 @@ chrome_extension/Mooltipass.safariextension
 !chrome_extension/Mooltipass.safariextension/Info.plist
 !chrome_extension/Mooltipass.safariextension/Settings.plist
 chrome_extension/CleanVersion
-*.vscode/*
+.vscode/
