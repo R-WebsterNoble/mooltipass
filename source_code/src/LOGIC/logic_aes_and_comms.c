@@ -358,6 +358,31 @@ void computeAndDisplayBlockSizeEncryptionResult(uint8_t* aes_key, uint8_t* data,
     // Wait for action before next screen
     miniGetWheelAction(TRUE, FALSE);
 }
+
+/*! \fn     guiDisplayHalfAESKey(uint8_t* aes_key, uint8_t stringId);
+*   \brief  Displays half of an AES key, display it on the screen and wait for user action
+*   \param  aes_key     AES key
+*   \param  stringId    String ID to display on the screen
+*/
+void guiDisplayHalfAESKey(uint8_t* aes_key, uint8_t stringId)
+{
+	// Get the text to display on the screen
+	miniOledClearFrameBuffer();
+	miniOledPutCenteredString(THREE_LINE_TEXT_FIRST_POS, readStoredStringToBuffer(stringId));
+
+	// Format and display AES key
+	for (uint8_t i = 0; i < AES256_CTR_LENGTH / 2; i++)
+	{
+		hexachar_to_string((char)aes_key[i], (char*)&textBuffer1[i*2]);
+		hexachar_to_string((char)aes_key[i+(AES_BLOCK_SIZE/8/2)], (char*)&textBuffer2[i*2]);
+	}
+	miniOledPutCenteredString(THREE_LINE_TEXT_SECOND_POS, (char*)textBuffer1);
+	miniOledPutCenteredString(THREE_LINE_TEXT_THIRD_POS, (char*)textBuffer2);
+	miniOledFlushEntireBufferToDisplay();
+
+	// Wait for action before next screen
+	miniGetWheelAction(TRUE, FALSE);
+}
 #endif
 
 /*! \fn     decrypt32bBlockOfDataAndClearCTVFlag(uint8_t* data, uint8_t* ctr)
