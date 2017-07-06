@@ -92,6 +92,7 @@ void guiGetBackToCurrentScreen(void)
             case SCREEN_SETTINGS:
             case SCREEN_SETTINGS_CHANGE_PIN:
             case SCREEN_SETTINGS_BACKUP:
+            case SCREEN_SETTINGS_BACKUP_KEY:
             case SCREEN_SETTINGS_HOME:
             case SCREEN_SETTINGS_ERASE:
             {
@@ -340,6 +341,32 @@ void guiScreenLoop(uint8_t input_interface_result)
                                 guiGetBackToCurrentScreen();
                                 return;
                             }
+                        }
+                        else
+                        {
+                            currentScreen = SCREEN_DEFAULT_INSERTED_LCK;
+                            guiDisplayInformationOnScreen(ID_STRING_FAILED);
+                        }
+                        userViewDelay();
+                        guiGetBackToCurrentScreen();
+                        break;
+                    }
+                    case SCREEN_SETTINGS_BACKUP_KEY:
+                    {
+                        // User wants to clone his smartcard
+                        volatile uint16_t pin_code;
+                        RET_TYPE temp_rettype;
+                    
+                        // Reauth user
+                        if (removeCardAndReAuthUser() == RETURN_OK)
+                        {
+                            // Read AES key from card
+                            uint8_t temp_buffer[AES_KEY_LENGTH/8];
+                            readAES256BitsKey(temp_buffer);
+
+                            //Display it to the user
+                            guiDisplayHalfAESKey(temp_buffer, ID_STRING_HASH1);
+                            guiDisplayHalfAESKey(temp_buffer + ((AES_KEY_LENGTH/8)/2), ID_STRING_HASH2);
                         }
                         else
                         {
