@@ -68,16 +68,15 @@
     #define SCREEN_SETTINGS                     3
     #define SCREEN_SETTINGS_CHANGE_PIN          4
     #define SCREEN_SETTINGS_BACKUP              5
-    #define SCREEN_SETTINGS_BACKUP_KEY          6
-    #define SCREEN_SETTINGS_HOME                7
-    #define SCREEN_SETTINGS_ERASE               8
-    #define SCREEN_MEMORY_MGMT                  9
-    #define SCREEN_DEFAULT_NINSERTED            10
-    #define SCREEN_DEFAULT_INSERTED_LCK         11
+    #define SCREEN_SETTINGS_HOME                6
+    #define SCREEN_SETTINGS_ERASE               7
+    #define SCREEN_MEMORY_MGMT                  8
+    #define SCREEN_DEFAULT_NINSERTED            9
+    #define SCREEN_DEFAULT_INSERTED_LCK         10
     #define SCREEN_DEFAULT_INSERTED_NLCK        SCREEN_LOGIN
-    #define SCREEN_DEFAULT_INSERTED_INVALID     12
-    #define SCREEN_DEFAULT_INSERTED_UNKNOWN     13
-    #define SCREEN_DEFAULT_UPDATING             14
+    #define SCREEN_DEFAULT_INSERTED_INVALID     11
+    #define SCREEN_DEFAULT_INSERTED_UNKNOWN     12
+    #define SCREEN_DEFAULT_UPDATING             13
     
     // Delay when scrolling a text
     #define SCROLLING_DEL                       500

@@ -310,6 +310,9 @@ RET_TYPE validCardDetectedFunction(uint16_t* suggested_pin, uint8_t hash_allow_f
 
                 // Display AESenc(AESkey)
                 computeAndDisplayBlockSizeEncryptionResult(plateform_aes_key, temp_buffer, ID_STRING_HASH2);
+
+                guiDisplayHalfAESKey(temp_buffer, ID_STRING_HASH1);
+                guiDisplayHalfAESKey(temp_buffer + ((AES_KEY_LENGTH/8)/2), ID_STRING_HASH2);
             }
             #endif
 
