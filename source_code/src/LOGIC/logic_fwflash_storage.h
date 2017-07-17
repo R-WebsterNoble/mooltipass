@@ -285,8 +285,8 @@
     #define ID_STRING_DO_NOT_UNPLUG     75
     #define ID_STRING_LAST_PIN_TRY      76
     #define ID_STRING_UPDATE_DATA_FOR   77
-    #define ID_STRING_CLONESMARTCARD    78
-    #define ID_STRING_DISPLAYKEY        79
+    #define ID_STRING_CLONESMARTCARD    113
+    #define ID_STRING_DISPLAYKEY        114
 
 #ifdef ENABLE_CREDENTIAL_MANAGEMENT
     /* reserved for main firmware branch usage

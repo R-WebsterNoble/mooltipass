@@ -111,3 +111,5 @@ Save changes?
 Password length?
 Create new Service?
 No Stored Service
+Clone Smartcard?
+Display Smartcard Key?

@@ -76,3 +76,5 @@ No Stored Credentials
 Send Password For:
 Change Description For:
 Update Data For:
+Clone Smartcard?
+Display Smartcard Key?
