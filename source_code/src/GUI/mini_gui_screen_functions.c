@@ -289,44 +289,73 @@ void guiScreenLoop(uint8_t input_interface_result)
                 }
                 case SCREEN_SETTINGS_BACKUP:
                 {
-                    // User wants to clone his smartcard
+                    // User wants to backup his smartcard
                     volatile uint16_t pin_code;
                     RET_TYPE temp_rettype;
-                        
-                    // Reauth user
-                    if (removeCardAndReAuthUser() == RETURN_OK)
+
+                    // Ask user if he wants to Clone the Smartcard?
+                    if (guiAskForConfirmation(1, (confirmationText_t*)readStoredStringToBuffer(ID_STRING_CLONESMARTCARD)) == RETURN_OK)
                     {
-                        // Ask for new pin
-                        temp_rettype = guiAskForNewPin(&pin_code, ID_STRING_PIN_NEW_CARD);
-                        if (temp_rettype == RETURN_NEW_PIN_OK)
+                        // Reauth user
+                        if (removeCardAndReAuthUser() == RETURN_OK)
                         {
-                            // Start the cloning process
-                            if (cloneSmartCardProcess(&pin_code) == RETURN_OK)
+                            // User wants to clone his smartcard
+                            // Ask for new pin
+                            temp_rettype = guiAskForNewPin(&pin_code, ID_STRING_PIN_NEW_CARD);
+                            if (temp_rettype == RETURN_NEW_PIN_OK)
                             {
-                                // Well it worked....
+                                // Start the cloning process
+                                if (cloneSmartCardProcess(&pin_code) == RETURN_OK)
+                                {
+                                    // Well it worked....
+                                }
+                                else
+                                {
+                                    currentScreen = SCREEN_DEFAULT_INSERTED_INVALID;
+                                    guiDisplayInformationOnScreen(ID_STRING_TGT_CARD_NBL);
+                                }
+                                pin_code = 0x0000;
+                            }
+                            else if (temp_rettype == RETURN_NEW_PIN_DIFF)
+                            {
+                                currentScreen = SCREEN_DEFAULT_INSERTED_LCK;
+                                guiDisplayInformationOnScreen(ID_STRING_PIN_DIFF);
                             }
                             else
                             {
-                                currentScreen = SCREEN_DEFAULT_INSERTED_INVALID;
-                                guiDisplayInformationOnScreen(ID_STRING_TGT_CARD_NBL);
+                                guiGetBackToCurrentScreen();
+                                return;
                             }
-                            pin_code = 0x0000;
-                        }
-                        else if (temp_rettype == RETURN_NEW_PIN_DIFF)
-                        {
-                            currentScreen = SCREEN_DEFAULT_INSERTED_LCK;
-                            guiDisplayInformationOnScreen(ID_STRING_PIN_DIFF);
                         }
                         else
                         {
-                            guiGetBackToCurrentScreen();
-                            return;
+                            currentScreen = SCREEN_DEFAULT_INSERTED_LCK;
+                            guiDisplayInformationOnScreen(ID_STRING_FAILED);
                         }
                     }
                     else
                     {
-                        currentScreen = SCREEN_DEFAULT_INSERTED_LCK;
-                        guiDisplayInformationOnScreen(ID_STRING_FAILED);
+                        // Ask user if he wants to Display the key?
+                        if (guiAskForConfirmation(1, (confirmationText_t*)readStoredStringToBuffer(ID_STRING_DISPLAYKEY)) == RETURN_OK)
+                        {
+                            // User wants to display the key
+                            // Reauth user
+                            if (removeCardAndReAuthUser() == RETURN_OK)
+                            {
+                                // Read AES key from card
+                                uint8_t temp_buffer[AES_KEY_LENGTH/8];
+                                readAES256BitsKey(temp_buffer);
+                                
+                                //Display it to the user
+                                guiDisplayHalfAESKey(temp_buffer, ID_STRING_HASH1);
+                                guiDisplayHalfAESKey(temp_buffer + ((AES_KEY_LENGTH/8)/2), ID_STRING_HASH2);
+                            }
+                            else
+                            {
+                                currentScreen = SCREEN_DEFAULT_INSERTED_LCK;
+                                guiDisplayInformationOnScreen(ID_STRING_FAILED);
+                            }
+                        }
                     }
                     userViewDelay();
                     guiGetBackToCurrentScreen();
