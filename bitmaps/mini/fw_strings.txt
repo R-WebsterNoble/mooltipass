@@ -113,5 +113,5 @@ Create new Service?
 No Stored Service
 Clone Smartcard?
 Display Smartcard Key
-AES Kay 1/2
-AES Kay 2/2
+AES Key 1/2
+AES Key 2/2

@@ -78,3 +78,5 @@ Change Description For:
 Update Data For:
 Clone Smartcard?
 Display Smartcard Key?
+AES Key 1/2
+AES Key 2/2

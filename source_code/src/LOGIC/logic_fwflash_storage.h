@@ -155,7 +155,9 @@
     #define ID_STRING_CHANGE_DESC_FOR   76
     #define ID_STRING_UPDATE_DATA_FOR   77
     #define ID_STRING_CLONESMARTCARD    78
-    #define ID_STRING_DISPLAYKEY        79            
+    #define ID_STRING_DISPLAYKEY        79
+    #define ID_STRING_KEYHALF1          80
+    #define ID_STRING_KEYHALF2          81          
 #elif defined(MINI_VERSION)
     // Font IDs
     #define FONT_NONE               255
