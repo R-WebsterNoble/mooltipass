@@ -752,11 +752,11 @@ input.mp-hover-password {
     right: 0px;
     bottom: 0px;
     background: rgba(33,33,33,0.3);
-    z-index: 2147483601 !important;
+    z-index: 2147483647 !important;
 }
 
 .mp-genpw-dialog .mooltipass-box {
-    position: absolute;
+    position: fixed;
     background-color: rgba(255, 255, 255, 1);
     border: 1px solid rgb(30,30,30);
     font-family: 'Helvetica Neue', 'Lucida Grande', sans-serif !important;
@@ -767,7 +767,7 @@ input.mp-hover-password {
     box-sizing: border-box;
     border-radius: 2px;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
-    z-index: 2147483602 !important;
+    z-index: 2147483647 !important;
     color: black;
     text-align: left;
 }
@@ -1047,9 +1047,11 @@ input.mp-popup-http-auth__input:focus {
 }
 
 .mp-popup-http-auth__notice {
-	display: none;
-	color: #f18888;
-	margin-bottom: 10px;
 	text-align: center;
-	font-size: 14px;
+	margin-bottom: 10px;
+	font-size: 12px;
+}
+
+.mp-popup-http-auth__notice span {
+	font-weight: bold;
 }
