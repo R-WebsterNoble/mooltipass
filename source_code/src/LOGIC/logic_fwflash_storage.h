@@ -287,6 +287,8 @@
     #define ID_STRING_UPDATE_DATA_FOR   77
     #define ID_STRING_CLONESMARTCARD    113
     #define ID_STRING_DISPLAYKEY        114
+    #define ID_STRING_KEYHALF1          115
+    #define ID_STRING_KEYHALF2          116
 
 #ifdef ENABLE_CREDENTIAL_MANAGEMENT
     /* reserved for main firmware branch usage

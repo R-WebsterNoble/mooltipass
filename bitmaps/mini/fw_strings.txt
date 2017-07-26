@@ -112,4 +112,6 @@ Password length?
 Create new Service?
 No Stored Service
 Clone Smartcard?
-Display Smartcard Key?
+Display Smartcard Key
+AES Kay 1/2
+AES Kay 2/2

@@ -356,8 +356,8 @@ void guiScreenLoop(uint8_t input_interface_result)
                                 readAES256BitsKey(temp_buffer);
                                 
                                 //Display it to the user
-                                guiDisplayHalfAESKey(temp_buffer, ID_STRING_HASH1);
-                                guiDisplayHalfAESKey(temp_buffer + ((AES_KEY_LENGTH/8)/2), ID_STRING_HASH2);
+                                guiDisplayHalfAESKey(temp_buffer, ID_STRING_KEYHALF1);
+                                guiDisplayHalfAESKey(temp_buffer + ((AES_KEY_LENGTH/8)/2), ID_STRING_KEYHALF2);
                             }
                             else
                             {
