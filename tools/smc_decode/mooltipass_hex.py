@@ -6,7 +6,7 @@ if __name__ == '__main__':
 		
 	# Ask the user to enter the path to the JSON file
 	print ""
-	jsonfile_path = raw_input("Please enter the path to the memory export file: ").rstrip()
+	jsonfile_path = raw_input("Please enter the path to the memory export file: ").rstrip().lstrip('"').rstrip('"')
 	with open(jsonfile_path) as json_file:
 		json_data = json.load(json_file)
 		nonce = []
