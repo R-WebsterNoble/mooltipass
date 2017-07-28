@@ -1,10 +1,53 @@
 import Crypto.Util.Counter
 import Crypto.Cipher.AES
 import json
+import sys
+import socket
+
+def internet(host="8.8.8.8", port=53, timeout=3):
+	"""
+	Host: 8.8.8.8 (google-public-dns-a.google.com)
+	OpenPort: 53/tcp
+	Service: domain (DNS/TCP)
+	"""
+	try:
+		socket.setdefaulttimeout(timeout)
+		socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((host, port))
+		return True
+	except Exception as ex:
+		print ex.message
+		return False
 
 if __name__ == '__main__':	
-		
-	# Ask the user to enter the path to the JSON file
+
+	if internet():
+		print "This computer appears to be connected to the internet!"
+		print "Is is strongly recommended that this utility is used on an offline pc."
+		print "Type \"I understand\" in the following prompt to proceed."    
+		text_input = raw_input("Text input: ").rstrip()
+		if text_input != "I understand":
+			sys.exit(0)	
+
+	# Warning part
+	print ""
+	print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  WARNING  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	print "!                                                                                                       !"
+	print "! Using this tool effectively renders your Mooltipass useless.                                          !"
+	print "! After accepting the following prompt, and entering yout AES key.                                      !"
+	print "! Both your credential database and its decryption key will therefore be in your computer memory.       !"
+	print "! If your computer is infected, all your logins & passwords can be decrypted without your knowledge.    !"
+	print "! Type \"I understand\" in the following prompt to proceed                                              !"
+	print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	text_input = raw_input("Text input: ").rstrip()
+	if text_input != "I understand":
+		sys.exit(0)
+
+		# Ask the user to enter the path to the JSON file
 	print ""
 	jsonfile_path = raw_input("Please enter the path to the memory export file: ").rstrip().lstrip('"').rstrip('"')
 	with open(jsonfile_path) as json_file:
