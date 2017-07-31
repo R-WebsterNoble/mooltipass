@@ -92,8 +92,7 @@ void initUsb(void);                                           // initialize ever
 uint8_t isUsbConfigured(void);                                // is the USB port configured
 uint8_t getKeyboardLeds(void);                                // get keyboard LEDs
 void usbSendLockShortcut(void);                               // send lock shortcut through usb
-RET_TYPE usbKeybPutChar(char ch);                             // type char
-RET_TYPE usbKeybPutStrChar(char **str);                        // type char pointer pointer						 
+RET_TYPE usbKeybPutChar(char ch);                             // type char				 
 RET_TYPE usbKeybPutStr(char* string);                         // type string
 RET_TYPE usbRawHidRecv(uint8_t* buffer);                      // receive a packet, with timeout
 RET_TYPE usbRawHidSend(uint8_t* buffer);

@@ -982,22 +982,7 @@ RET_TYPE usbPutstr(const char *str)
 */
 RET_TYPE usbKeybPutChar(char ch)
 {
-    char *pch = &ch;
-    char **ppch = &pch;
-
-	return usbKeybPutStrChar(ppch);
-}
-
-/*! \fn     usbKeybPutChar(char **str)
-*   \brief  press a given char on the keyboard
-*   \param  ch    pointer pointer to char to press
-*   \return if the key was sent
-*/
-RET_TYPE usbKeybPutStrChar(char **str)
-{
 	uint8_t layout = getMooltipassParameterInEeprom(KEYBOARD_LAYOUT_PARAM);
-
-	unsigned char ch = **str;
 
 	if (ch == 0x0A)
 	{
@@ -1011,17 +996,10 @@ RET_TYPE usbKeybPutStrChar(char **str)
 	}
 	else if ((ch < ' ') || (ch > '~'))
 	{
-		unsigned char nextCh = ((unsigned char)*((*str)+1));
-		// The LUT only covers from ' ' to ~ included
-
-		if(layout == ID_KEYB_EN_UK_LUT && ch == 0xC2 && nextCh == 0xA3)
-		{
-			//We've got a '£' on a UK keyboard
-
-			//skip to the next character
-			(*str)++;
-			
-			//press shift + 3
+        if(layout == ID_KEYB_EN_UK_LUT && ch == 0xA3)
+		{	
+            //We've got a '£' on a UK keyboard	
+			// Press shift + 3
 			uint8_t key = getKeybLutEntryForLayout(layout, '3');
 			return usbKeyboardPress(key & ~SHIFT_MASK, KEY_SHIFT);
 		}
@@ -1033,7 +1011,7 @@ RET_TYPE usbKeybPutStrChar(char **str)
     else
     {
         // Get correct keyboard key depending on the layout
-        uint8_t key = getKeybLutEntryForLayout(getMooltipassParameterInEeprom(KEYBOARD_LAYOUT_PARAM), ch);
+        uint8_t key = getKeybLutEntryForLayout(layout, ch);
         uint8_t masked_key = key & (SHIFT_MASK|ALTGR_MASK);
         
         if ((key & 0x3F) == KEY_EUROPE_2)
@@ -1089,8 +1067,7 @@ RET_TYPE usbKeybPutStr(char* string)
     
     while((*string) && (temp_ret == RETURN_COM_TRANSF_OK))
     {
-        temp_ret = usbKeybPutStrChar(&string);
-		string++;
+        temp_ret = usbKeybPutChar(*string++);
         if (getMooltipassParameterInEeprom(DELAY_AFTER_KEY_ENTRY_BOOL_PARAM) != FALSE)
         {
             timerBasedDelayMs(getMooltipassParameterInEeprom(DELAY_AFTER_KEY_ENTRY_PARAM));
